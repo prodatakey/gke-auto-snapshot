@@ -14,6 +14,6 @@ else
   from_date=$(date -v -60d "+%Y-%m-%d")
 fi
 gcloud compute snapshots list --filter="creationTimestamp<$from_date" --regexp "(autogcs.*)" --uri | while read SNAPSHOT_URI; do
-   gcloud compute snapshots delete $SNAPSHOT_URI
+   gcloud compute snapshots delete $SNAPSHOT_URI  --quiet
 done
 #

@@ -3,7 +3,7 @@ kind: CronJob
 metadata:
   name: gke-auto-snapshot
 spec:
-  schedule: "* */6 * * *"
+  schedule: "0 */6 * * *"
   startingDeadlineSeconds: 10800
   concurrencyPolicy: Forbid
   jobTemplate:

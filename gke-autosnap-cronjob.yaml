@@ -4,6 +4,8 @@ metadata:
   name: gke-auto-snapshot
 spec:
   schedule: "* */6 * * *"
+  startingDeadlineSeconds: 10800
+  concurrencyPolicy: Forbid
   jobTemplate:
     spec:
       template:

@@ -13,4 +13,5 @@ spec:
           containers:
           - name: gke-auto-snapshot
             image: prodatakey/gke-auto-snapshot:latest
+          serviceAccountName: snapshotter
           restartPolicy: OnFailure

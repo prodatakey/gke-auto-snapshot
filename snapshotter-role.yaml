@@ -1,0 +1,13 @@
+title: Snapshotter
+description: This row allows a user to enumerate and snapshot GCE disks. It also allows
+  the user to label and delete snapshots for  purposes.
+stage: GA
+includedPermissions:
+  - compute.disks.createSnapshot
+  - compute.disks.get
+  - compute.disks.list
+  - compute.snapshots.create
+  - compute.snapshots.delete
+  - compute.snapshots.get
+  - compute.snapshots.list
+  - compute.snapshots.setLabels

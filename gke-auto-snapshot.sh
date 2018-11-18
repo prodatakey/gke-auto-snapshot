@@ -11,11 +11,13 @@ done
 gcloud compute disks list --filter='description:* AND description~kubernetes.io/created-for/pvc/name' --format='value(name,zone,description)' | while read DISK_NAME ZONE DESC; do
   K8S_PVC_NS=$(echo $DESC | jq -r '."kubernetes.io/created-for/pvc/namespace"')
   K8S_PVC_NAME=$(echo $DESC | jq -r '."kubernetes.io/created-for/pvc/name"')
-  gcloud compute disks snapshot $DISK_NAME --snapshot-names autosnap-pvc-${K8S_PVC_NS}-${K8S_PVC_NAME}-$(date "+%Y-%m-%d-%s") --zone $ZONE
+  NAME_LEN=$((27-${#K8S_PVC_NS})) # How much name can we keep after the NS len
+
+  gcloud compute disks snapshot $DISK_NAME --snapshot-names autosnap-pvc-${K8S_PVC_NS}-${K8S_PVC_NAME:0:$NAME_LEN}-$(date "+%Y-%m-%d-%s") --zone $ZONE
 done
 
 #
-# snapshots are incremental and dont need to be deleted, deleting snapshots will merge snapshots, so deleting doesn't loose anything
+# snapshots are incremental and dont need to be deleted, deleting snapshots will merge snapshots, so deleting doesn't lose anything
 # having too many snapshots is unwiedly so this script deletes them after 60 days
 #
 if [[ $(uname) == "Linux" ]]; then

@@ -26,14 +26,14 @@ Make any desired changes and apply it to your cluster via `kubectl apply -f gke-
 
 ## Permissions
 
-The `snapshotter-role.yaml` andfiles describes a GCP role with all of the permissions this
+The `snapshotter-role.yaml` file describes a GCP role with all of the permissions this
 project needs to do its job. 
 
 The `create-snapshotter-role.sh` script can be used to create this role in a Google Cloud project:
 
 	$ PROJECT=my-gcp-project ./create-snapshotter-role.sh
 
-The best solution to apply this role is to use an [account assigner][1] that can provide pods
+The best solution to apply this role at runtime is to use an [account assigner][1] that can provide pods
 with permissions unique to their task in GCP. The example cronjob resource yaml has annotations used by this assigner.
 
 Alternatively, the created role can be applied to your default GCE compute service account identity.

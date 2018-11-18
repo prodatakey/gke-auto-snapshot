@@ -3,14 +3,19 @@ kind: CronJob
 metadata:
   name: gke-auto-snapshot
 spec:
-  schedule: "0 */6 * * *"
-  startingDeadlineSeconds: 10800
-  concurrencyPolicy: Forbid
+  schedule: "0 */6 * * *"         # Every 6 hours
+  startingDeadlineSeconds: 10800  # Start up to 3h late
+  concurrencyPolicy: Forbid       # Never run more than one
   jobTemplate:
     spec:
       template:
+        metadata:
+          annotations:
+            # For info on using these annotations, see https://github.com/imduffy15/k8s-gke-service-account-assigner
+            accounts.google.com/scopes: https://www.googleapis.com/auth/cloud-platform
+            accounts.google.com/service-account: snapshotter@<project-id>.iam.gserviceaccount.com
         spec:
           containers:
           - name: gke-auto-snapshot
-            image: prodatakey/gke-auto-snapshot:latest
+            image: prodatakey/gke-auto-snapshot:0.2.0
           restartPolicy: OnFailure

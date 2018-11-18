@@ -24,6 +24,25 @@ Take a look at `gke-autosnap-cronjob.yaml` for an example k8s cronjob resource d
 Make any desired changes and apply it to your cluster via `kubectl apply -f gke-autosnap-cronjob.yaml`.
 
 
+## Permissions
+
+The `snapshotter-role.yaml` andfiles describes a GCP role with all of the permissions this
+project needs to do its job. 
+
+The `create-snapshotter-role.sh` script can be used to create this role in a Google Cloud project:
+
+	$ PROJECT=my-gcp-project ./create-snapshotter-role.sh
+
+The best solution to apply this role is to use an [account assigner][1] that can provide pods
+with permissions unique to their task in GCP. The example cronjob resource yaml has annotations used by this assigner.
+
+Alternatively, the created role can be applied to your default GCE compute service account identity.
+This will give any pod in your cluster the ability to use these permissions. This is not a great thing
+to do-from a security POV-except in the simplest of test clusters.
+
+[1]: https://github.com/imduffy15/k8s-gke-service-account-assigner
+
+
 ## Snapshot Retention
 
 Snapshots are kept for 60 days
